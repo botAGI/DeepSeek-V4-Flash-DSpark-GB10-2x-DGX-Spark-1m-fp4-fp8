@@ -27,9 +27,9 @@ touched.
 - Apply the patches: [`apply-patches.sh`](apply-patches.sh) → everything under
   [`patches/`](patches/) (the `DSparkV4MTP` draft head, the `DSparkProposer`, the
   spec-config wiring, the EAGLE3 aux plumbing).
-- Launch (TP=2 over RoCE, 1M context): [`run-dspark-node.sh`](run-dspark-node.sh)
-  (systemd-managed, reboot-proof, RoCE-GID re-alignment) and
-  [`launch-dspark-node.sh`](launch-dspark-node.sh).
+- Launch (fp8, TP=2 over RoCE, 1M context): [`run-fp8-node.sh`](run-fp8-node.sh)
+  (production, systemd-managed, reboot-proof, RoCE-GID re-alignment) and
+  [`launch-fp8-node.sh`](launch-fp8-node.sh) (load-test variant).
 - Full recipe, anchors, and the three bug-fixes: [`docs/recipe.md`](docs/recipe.md),
   [`patches/PATCHES.md`](patches/PATCHES.md), [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md).
 

@@ -1,11 +1,12 @@
 #!/usr/bin/env bash
-# DSpark (DeepSeek-V4-Flash-DSpark, spec-decode) dual-Spark (GB10) vLLM node runner.
+# OUR fp8-KV DSpark build — dual-Spark (GB10) vLLM node runner (fp8_ds_mla KV cache,
+# DeepSeek-V4-Flash-DSpark spec-decode). This is the fp8 launcher (cf. run-nvfp4-node.sh).
 # Production service runner — systemd-managed, FOREGROUND (no -d), so systemd owns the
 # container lifecycle and Restart=always works.
 #
-# usage: run-dspark-node.sh <0|1>   (0 = head / OpenAI API :8000, 1 = worker / headless)
+# usage: run-fp8-node.sh <0|1>   (0 = head / OpenAI API :8000, 1 = worker / headless)
 #
-# Promoted from the verified-working manual launch (launch-dspark-node.sh): TP=2,
+# Promoted from the verified-working manual launch (launch-fp8-node.sh): TP=2,
 # method=dspark, num_spec=5, kv-cache fp8, block-size 256, max-model-len 1000000,
 # max-num-seqs 12, gpu-mem-util 0.86, DSPARK_BONUS bonus-slot default-on. Served on the
 # SAME host:port (<MASTER_IP>:8000) and served-model-name (dspark) as the running
@@ -25,7 +26,7 @@
 #   MASTER_ADDR, WORKER_HOST, NCCL_IB_HCA, NCCL_IB_GID_INDEX, RDV_PORT, HF_CACHE.
 set -uo pipefail
 
-NODE_RANK="${1:?usage: run-dspark-node.sh <0|1>  (0=head, 1=worker)}"
+NODE_RANK="${1:?usage: run-fp8-node.sh <0|1>  (0=head, 1=worker)}"
 
 # RoCE fabric IPs of the two nodes (override via env / .env).
 MASTER_IP="${MASTER_ADDR:-<MASTER_IP>}"

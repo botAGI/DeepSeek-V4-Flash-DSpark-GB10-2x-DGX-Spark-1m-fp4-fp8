@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
-# DSpark dual-Spark (GB10) load TEST runner. Clone of the production node runner.
-# usage: launch-dspark-node.sh <0|1>   (0=head/API :8000, 1=worker/headless)
+# OUR fp8-KV DSpark build — dual-Spark (GB10) load TEST runner. Clone of run-fp8-node.sh.
+# usage: launch-fp8-node.sh <0|1>   (0=head/API :8000, 1=worker/headless)
 # Detached (-d) so we can tail logs. Test config: small ctx, enforce-eager, no prefix-cache.
 #
 # Config via env (see .env.dspark.example): MASTER_ADDR, WORKER_HOST, NCCL_IB_HCA,
 # NCCL_IB_GID_INDEX, RDV_PORT, HF_CACHE.
 set -uo pipefail
-NODE_RANK="${1:?usage: launch-dspark-node.sh <0|1>}"
+NODE_RANK="${1:?usage: launch-fp8-node.sh <0|1>}"
 
 MASTER_IP="${MASTER_ADDR:-<MASTER_IP>}"
 PEER_NODE_IP="${WORKER_HOST:-<PEER_IP>}"
