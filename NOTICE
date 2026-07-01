@@ -1,0 +1,26 @@
+DSpark-on-GB10
+Copyright (c) 2026 AGmind
+
+This project is released under the MIT License (see LICENSE).
+
+It references / adapts ideas and interfaces from the following projects, each
+under its own license:
+
+- DeepSeek-V4 / DeepSeek-V4-Flash-DSpark checkpoint and reference inference code
+  (deepseek-ai, MIT). https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash-DSpark
+  - The DSpark draft-head architecture (DSparkBlock / markov_head / confidence_head)
+    and weight layout (mtp.* namespace) are derived from the published reference
+    inference/model.py and config.json.
+
+- DeepSpec (deepseek-ai, MIT). https://github.com/deepseek-ai/DeepSpec
+  - Model-agnostic DSpark algorithm (Markov bias, confidence / adaptive depth,
+    accept/verify loop) referenced for the proposer logic.
+  - DeepSpec itself includes code adapted from SpecForge (Apache-2.0) and the
+    DFlash recipe (MIT); see DeepSpec's NOTICE.
+
+- vLLM (vllm-project, Apache-2.0). https://github.com/vllm-project/vllm
+  - The DSpark integration is implemented as vLLM patches (new speculative method
+    `dspark`, a DeepSeek-V4 draft-head model class, and a DFlash-derived proposer).
+  - SM12x (sm_120/sm_121) DeepSeek-V4 enablement builds on the jasl/vllm community fork.
+
+No model weights are redistributed by this repository.

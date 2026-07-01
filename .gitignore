@@ -1,0 +1,27 @@
+# Local-only: internal notes, scratch, vendored upstream reference clone
+_local/
+
+# Secrets / cluster env (ship only the sanitized template)
+.env
+.env.*
+!.env.dspark.example
+*.key
+*.pem
+*.secret
+secrets.env
+
+# Python build junk
+__pycache__/
+*.pyc
+*.pyo
+
+# Logs / OS cruft
+*.log
+.DS_Store
+
+# Model weights / caches (never commit) — root-anchored so it does NOT
+# swallow source under patches/vllm/models/
+/models/
+*.safetensors
+*.pt
+*.bin
