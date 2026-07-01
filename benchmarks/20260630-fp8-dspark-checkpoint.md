@@ -1,5 +1,7 @@
 # fp8 DSpark on GB10 — measurement checkpoint (2026-06-30)
 
+> Measurements of **our own** fp8-KV DSpark build (`fp8_ds_mla`) — the recipe in this repo ([`apply-patches.sh`](../apply-patches.sh) + [`patches/`](../patches/)), our GB10 / `sm_121` bring-up. The DSpark speculative-decoding algorithm is DeepSeek-AI's; the fp8 GB10 adaptation is ours — see [`../CREDITS.md`](../CREDITS.md).
+
 A dated snapshot of the verified fp8-KV DSpark numbers on this build. All figures are
 apples-to-apples: **`completion_tokens / wall_time`**, non-streaming, same prompt class,
 same engine.
