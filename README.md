@@ -46,6 +46,34 @@ what nobody had published. To **build** it, go to the upstream repo. In this rep
 
 ---
 
+## Quick start (fp8 build, 2× GB10)
+
+Prerequisites: two DGX Spark (GB10) nodes with the RoCE fabric up and a base SM12x
+DeepSeek-V4-Flash vLLM image. Run steps 1–2 **on both nodes**; step 3 with the right rank
+per node.
+
+```bash
+# 1. cache the ~156 GiB checkpoint on each node (download + shard-completeness verify)
+./prepare-model-cache.sh
+
+# 2. build the fp8 DSpark image from your base image (or build once and push to a registry)
+bash apply-patches.sh <base-sm12x-image> dspark-vllm:fp8
+
+# 3. set the cluster env, then start the node  (0 = head / OpenAI API :8000, 1 = worker)
+cp .env.dspark.example .env.dspark      # fill in your IPs / RoCE HCA
+set -a; . ./.env.dspark; set +a
+./run-fp8-node.sh 0                      # on the head node
+./run-fp8-node.sh 1                      # on the worker node
+
+# 4. verify (from anywhere that can reach the head node)
+./smoke.sh                              # checks /v1/models + one chat completion
+```
+
+For the faster NVFP4-KV line, build tonyd2wild's image (link above) and launch with
+`./run-nvfp4-node.sh 0|1` in place of steps 2–3.
+
+---
+
 ## Benchmarks (our unique contribution)
 
 The measurement suite is the point of this repo. Everything here is our data on 2× DGX Spark GB10,

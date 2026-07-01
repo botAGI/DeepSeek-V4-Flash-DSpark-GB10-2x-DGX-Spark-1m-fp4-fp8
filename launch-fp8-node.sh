@@ -30,7 +30,7 @@ until ping -c1 -W1 "$PEER_IP" >/dev/null 2>&1; do sleep 3; done
 
 ensure_roce_gid() {
   command -v show_gids >/dev/null 2>&1 || return 0
-  for try in 1 2 3 4 5; do
+  for _ in 1 2 3 4 5; do
     if show_gids 2>/dev/null | awk -v ip="$OWN_IP" -v hca="$ROCE_HCA" -v gi="$ROCE_GID_INDEX" \
         '$1==hca&&$3==gi&&$5==ip&&$6=="v2"{f=1} END{exit !f}'; then return 0; fi
     nmcli con down "$RDV_LINK" >/dev/null 2>&1 || true; sleep 2; nmcli con up "$RDV_LINK" >/dev/null 2>&1 || true; sleep 6
