@@ -1,0 +1,79 @@
+=== 1M single-stream curve: baseline_v2 ===
+container=vllm_dspark_nvfp4  2026-06-30T17:51:16Z
+
+----- depth 16K (target 16000) -----
+
+===== DEPTH 16K (target 16000 tok) =====
+  GEN_MARK 2026-06-30T17:51:25
+  prompt_tokens (VERIFIED): 16006
+  completion_tokens: 200  wall: 4.69s  finish: length
+  SINGLE-STREAM t/s: 42.66
+  OUTPUT[:280]: 'achieves 2.3× speedup over the baseline on long-context benchmarks while maintaining output quality. The design demonstrates that careful orchestration of speculative decoding, memory management, and parallelism can effectively address the challenges of long-context inference at '
+
+
+===== SUMMARY =====
+ depth  prompt_tok  comp_tok   wall_s     t/s   finish
+   16K       16006       200     4.69   42.66   length
+
+wrote /tmp/claude-1000/-home-agmind-AGmind/9d0a2305-4673-4c13-aaee-a9382375a5fc/scratchpad/bench_result.json
+  SPEC-DECODE (timed gen window, mark=2026-06-30T17:51:25):
+    (APIServer pid=1) INFO 06-30 17:51:30 [metrics.py:101] SpecDecoding metrics: Mean acceptance length: 3.30, Accepted throughput: 7.00 tokens/s, Drafted throughput: 15.25 tokens/s, Accepted: 140 tokens, Drafted: 305 tokens, Per-position acceptance rate: 0.803, 0.557, 0.459, 0.295, 0.180, Avg Draft acceptance rate: 45.9%
+
+----- depth 64K (target 64000) -----
+
+===== DEPTH 64K (target 64000 tok) =====
+  GEN_MARK 2026-06-30T17:52:12
+  prompt_tokens (VERIFIED): 64008
+  completion_tokens: 200  wall: 6.92s  finish: length
+  SINGLE-STREAM t/s: 28.90
+  OUTPUT[:280]: 'achieves 0.9 acceptance rate with 4.2x speedup on 1M context. The design uses 16-way tensor parallelism and 8-way pipeline parallelism across 128 H100 GPUs. The key innovations include chunked-prefill with dynamic batching, speculative decoding with 4 draft tokens, and FP8 quanti'
+
+
+===== SUMMARY =====
+ depth  prompt_tok  comp_tok   wall_s     t/s   finish
+   64K       64008       200     6.92    28.9   length
+
+wrote /tmp/claude-1000/-home-agmind-AGmind/9d0a2305-4673-4c13-aaee-a9382375a5fc/scratchpad/bench_result.json
+  SPEC-DECODE (timed gen window, mark=2026-06-30T17:52:12):
+    (APIServer pid=1) INFO 06-30 17:52:20 [metrics.py:101] SpecDecoding metrics: Mean acceptance length: 2.23, Accepted throughput: 11.10 tokens/s, Drafted throughput: 44.99 tokens/s, Accepted: 111 tokens, Drafted: 450 tokens, Per-position acceptance rate: 0.622, 0.344, 0.167, 0.067, 0.033, Avg Draft acceptance rate: 24.7%
+
+----- depth 256K (target 256000) -----
+
+===== DEPTH 256K (target 256000 tok) =====
+  GEN_MARK 2026-06-30T17:54:41
+  prompt_tokens (VERIFIED): 255991
+  completion_tokens: 104  wall: 4.10s  finish: stop
+  SINGLE-STREAM t/s: 25.35
+  OUTPUT[:280]: 'achieves high throughput and low latency by leveraging speculative decoding with a lightweight draft model, efficient memory management through KV-cache eviction and unified memory allocation, and optimized communication via all-reduce rings and tensor-parallel scheduling. The us'
+
+
+===== SUMMARY =====
+ depth  prompt_tok  comp_tok   wall_s     t/s   finish
+  256K      255991       104      4.1   25.35     stop
+
+wrote /tmp/claude-1000/-home-agmind-AGmind/9d0a2305-4673-4c13-aaee-a9382375a5fc/scratchpad/bench_result.json
+  SPEC-DECODE (timed gen window, mark=2026-06-30T17:54:41):
+    (APIServer pid=1) INFO 06-30 17:54:50 [metrics.py:101] SpecDecoding metrics: Mean acceptance length: 2.42, Accepted throughput: 6.10 tokens/s, Drafted throughput: 21.50 tokens/s, Accepted: 61 tokens, Drafted: 215 tokens, Per-position acceptance rate: 0.698, 0.442, 0.163, 0.070, 0.047, Avg Draft acceptance rate: 28.4%
+
+----- depth 512K (target 512000) -----
+
+===== DEPTH 512K (target 512000 tok) =====
+  GEN_MARK 2026-06-30T17:58:50
+  prompt_tokens (VERIFIED): 511966
+  completion_tokens: 95  wall: 5.40s  finish: stop
+  SINGLE-STREAM t/s: 17.61
+  OUTPUT[:280]: 'achieves a sustained throughput of 1.2 million tokens per second per user with 128k context windows, while maintaining 99.9% uptime through the combination of speculative decoding, 4-bit quantization, and dynamic batching. The architecture demonstrates that large-scale deployment'
+
+
+===== SUMMARY =====
+ depth  prompt_tok  comp_tok   wall_s     t/s   finish
+  512K      511966        95      5.4   17.61     stop
+
+wrote /tmp/claude-1000/-home-agmind-AGmind/9d0a2305-4673-4c13-aaee-a9382375a5fc/scratchpad/bench_result.json
+  SPEC-DECODE (timed gen window, mark=2026-06-30T17:58:50):
+    (APIServer pid=1) INFO 06-30 17:59:00 [metrics.py:101] SpecDecoding metrics: Mean acceptance length: 1.98, Accepted throughput: 4.70 tokens/s, Drafted throughput: 24.00 tokens/s, Accepted: 47 tokens, Drafted: 240 tokens, Per-position acceptance rate: 0.542, 0.271, 0.104, 0.042, 0.021, Avg Draft acceptance rate: 19.6%
+
+----- depth 900K (target 900000) -----
+
+===== DEPTH 900K (target 900000 tok) =====
+  GEN_MARK 2026-06-30T17:59:12

@@ -1,0 +1,39 @@
+{
+  "calibrated_prompt_tokens": 1032953,
+  "runs": [
+    {
+      "run": 1,
+      "mark": "2026-07-04T20:06:01",
+      "prompt_tokens": 1032953,
+      "completion_tokens": 200,
+      "wall_s": 11.62,
+      "tps": 17.21,
+      "finish": "length",
+      "text": "He suggested addressing him as ‘Usurper and Enemy of the Human Race.’”\n\nDolgorúkov laughed merrily.\n\n“No more than that?” said Bolkónski.\n\n“All the same, Bilíbin found a suitable title for the\nsuperscription. He said: ‘To the Usurper and Enemy of the Human\nRace.’”\n\n“That’s all,” said Prince Andrew carelessly.\n\n“It was not necessary to send a reply.”\n\n“I don’t think it will be necessary. That’s just what I think.”\n\n“And you are right,” said Bolkónski.\n\nAnd the young man, who had been on the point of getting into an\nargument, became particularly anxious to support the opinion he had\njust expressed.\n\nWhile the two were talking, Borís several times regretted his\nreadiness to interrupt, but still he had several times glanced at\nDolgorúkov, and when the latter went out he nodded to him",
+      "analysis": {
+        "repetition_ratio": 0.0373,
+        "distinct_3grams": 129,
+        "total_3grams": 134,
+        "phrase_repeat": null,
+        "loop_detected": false
+      }
+    },
+    {
+      "run": 2,
+      "mark": "2026-07-04T20:06:21",
+      "prompt_tokens": 1032953,
+      "completion_tokens": 200,
+      "wall_s": 11.63,
+      "tps": 17.19,
+      "finish": "length",
+      "text": "He suggested addressing him as ‘Usurper and Enemy of the Human Race.’”\n\nDolgorúkov laughed merrily.\n\n“No more than that?” said Bolkónski.\n\n“All the same, Bilíbin found a serious title for the address. And he\nis a witty and clever fellow.”\n\n“What was it?”\n\n“‘To the Head of the French Government... Au chef du gouvernement\nfrançais,’” said Dolgorúkov, with grave satisfaction. “Good, wasn’t\nit?”\n\n“Yes, but very bad for him,” said Bolkónski.\n\n“Oh, very bad! A brother gets a thrashing and holds his tongue, but\nan overlord may be attacked and he can’t cry out.”\n\n“Oh, why that?” asked Dolgorúkov. “You’d have cried out, and\nvery likely would have said: ‘I may be beaten, but it’s on\nhorseback and in full uniform,",
+      "analysis": {
+        "repetition_ratio": 0.0,
+        "distinct_3grams": 123,
+        "total_3grams": 123,
+        "phrase_repeat": null,
+        "loop_detected": false
+      }
+    }
+  ]
+}

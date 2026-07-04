@@ -42,11 +42,22 @@ as context deepens, so the real curve decays hard.
 | 64K  | **28.9** | 2.23 | 0.62 / 0.34 / 0.17 / 0.07 / 0.03 |
 | 256K | **25.4** | 2.42 | 0.70 / 0.44 / 0.16 / 0.07 / 0.05 |
 | 512K | **17.6** | 1.98 | 0.54 / 0.27 / 0.10 / 0.04 / 0.02 |
+| **1.03M** | **17.2** | ~2.1 | (short window; steady-interval pos0 ≈ 0.68–0.72) |
 
 Throughput more than halves from 16K → 512K, tracking the collapse in draft acceptance: pos-0
 acceptance falls from **0.80 → 0.54** over 16K → 512K, and the deeper draft positions go to
 near-zero. The short-context number does **not** describe deep-context serving. This curve is
 true of the *unmodified upstream build*.
+
+**Real-1M point (added 2026-07-04).** Prompt calibrated to **1,032,953 tokens** (of the
+1,048,576 window), greedy, 200 generated tokens per run, two timed runs: **17.21 / 17.19 t/s**.
+The curve **flattens** past 512K (17.6 → 17.2, −2%): by this depth speculation adds little
+(mean accept ~2.1) and the step is dominated by the same verify-forward as no-spec. Both runs
+were **coherent** (repetition ratio 0.037 / 0.0 — no loops at full depth; see the
+coherence-collapse note below: the loop is a lottery, not a depth wall). Operational note:
+cold prefill of 1.03M tokens took **642 s** (~10.7 min, ~1600 t/s prefill); a warm re-query on
+the same context via prefix cache started in **4 s**. Method caveat: the 1M point uses a
+different fragment of the same prose corpus than the shallower points, single config (greedy).
 
 ---
 
@@ -56,7 +67,7 @@ true of the *unmodified upstream build*.
 sliding window of main-KV but applies full-1M YaRN RoPE; we re-based the draft's RoPE to a
 local window to fix the window-vs-YaRN mismatch. The apparent acceptance lift (256K mean-accept
 2.42 → 4.00) was a **mirage** — the draft was trivially predicting its own repetition loop. The
-`torch.where` re-anchor path also slowed decode catastrophically (256K: 25.4 → 1.73 t/s, ~22×)
+`torch.where` re-anchor path also slowed decode catastrophically (256K: 25.4 → 1.73 t/s, ~15×)
 and produced incoherent output at every depth. Abandoned.
 
 **(2) Dormant confidence-scheduler ON — REGRESSES.** Enabling

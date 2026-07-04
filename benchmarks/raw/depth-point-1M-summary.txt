@@ -1,0 +1,33 @@
+# 1M-depth point — VERIFIED LIVE 2026-07-04 20:05-20:06Z
+# nvfp4 build (tonyd2wild Stage-C, byte-identical), model=dspark, single-stream, greedy, max_tokens=200
+# prompt: War and Peace continuation (non-repetitive), calibrated
+
+prompt_tokens = 1,032,953  (target ~1.03M, hard cap 1,047,376 respected)
+cold prefill  = 642.2 s (~10.7 min) => ~1609 tok/s prefill rate at full 1M depth
+warm re-query = 4.05 s (prefix cache)
+
+TIMED run 1: 200 tok / 11.62 s = 17.21 tok/s  finish=length
+TIMED run 2: 200 tok / 11.63 s = 17.19 tok/s  finish=length
+=> 1M point: 17.2 tok/s (two runs, spread 0.02)
+
+COHERENCE: BOTH runs coherent (rep-ratio 0.0373 / 0.0, no phrase loops) —
+  at 1.03M the greedy continuation did NOT loop (256K looped at 0.878; flappy confirmed again).
+
+ACCEPTANCE (SpecDecoding metrics, generation window 20:06:01-20:06:38):
+  full-window aggregate: accepted 208 / drafts 192 -> mean accept len ~2.08 (~2.1)
+  steady 10s intervals: 2.47 / 2.51 (tails with idle gaps 1.75 / 1.69)
+  per-pos pos0 weighted ~0.60 (steady intervals 0.72 / 0.68)
+  NOTE: prompt fragment differs from 512K point (Tolstoy vs Melville) — same class (novel prose), flag in article.
+
+CURVE COMPLETE (single-stream, warm):
+  16K  = 42.7  (3.30)
+  64K  = 28.9  (2.23)
+  256K = 25.4  (2.42)   <- looped in one greedy probe (0.878)
+  512K = 17.6  (1.98)
+  1.03M= 17.2  (~2.1)   <- coherent, curve FLATTENS at depth (-2% vs 512K)
+
+KEY NEW FACTS for article/repo:
+  1. The curve flattens 512K->1M (17.6->17.2): the floor is the no-spec-like step at full KV depth.
+  2. At real 1M: coherent output (2/2), no loop — coherence bug remains flappy, not a depth wall.
+  3. Cold TTFT at 1M = ~642 s; warm (prefix-cache) re-query = 4 s — the operational headline for 1M serving.
+raw: result_1M_point.json (full outputs), prompt_1M.txt, run_1m_point.log
