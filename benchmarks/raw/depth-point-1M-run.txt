@@ -1,0 +1,15 @@
+[2026-07-04T19:55:07Z] corpus chars=7378937  target=[1020000,1040000]  hard_cap=1047376
+[2026-07-04T20:05:49Z] calib iter0: nchars=4150436 -> prompt_tokens=1032953 (642.2s)
+[2026-07-04T20:05:49Z] CALIBRATED: prompt_tokens=1032953 nchars=4150436 -> saved prompt_1M.txt
+[2026-07-04T20:05:49Z] WARM run (max_tokens=16) ...
+[2026-07-04T20:05:53Z] WARM done: prompt_tokens=1032953 completion_tokens=16 wall=4.05s
+[2026-07-04T20:06:01Z] GEN_MARK_1 2026-07-04T20:06:01
+[2026-07-04T20:06:13Z] TIMED run 1: prompt_tokens=1032953 completion_tokens=200 wall=11.62s t/s=17.21 finish=length
+[2026-07-04T20:06:21Z] GEN_MARK_2 2026-07-04T20:06:21
+[2026-07-04T20:06:32Z] TIMED run 2: prompt_tokens=1032953 completion_tokens=200 wall=11.63s t/s=17.19 finish=length
+[2026-07-04T20:06:32Z] END_MARK 2026-07-04T20:06:32
+[2026-07-04T20:06:32Z] run 1 coherence: repetition_ratio=0.0373 distinct/total 3grams=129/134 phrase_repeat=None loop=False
+[2026-07-04T20:06:32Z] run 1 OUTPUT[:200]: 'He suggested addressing him as ‘Usurper and Enemy of the Human Race.’”  Dolgorúkov laughed merrily.  “No more than that?” said Bolkónski.  “All the same, Bilíbin found a suitable title for the supersc'
+[2026-07-04T20:06:32Z] run 2 coherence: repetition_ratio=0.0 distinct/total 3grams=123/123 phrase_repeat=None loop=False
+[2026-07-04T20:06:32Z] run 2 OUTPUT[:200]: 'He suggested addressing him as ‘Usurper and Enemy of the Human Race.’”  Dolgorúkov laughed merrily.  “No more than that?” said Bolkónski.  “All the same, Bilíbin found a serious title for the address.'
+[2026-07-04T20:06:32Z] wrote result_1M_point.json
