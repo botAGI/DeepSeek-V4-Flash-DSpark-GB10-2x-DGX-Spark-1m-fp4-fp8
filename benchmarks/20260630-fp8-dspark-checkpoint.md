@@ -28,7 +28,7 @@ same engine.
 The **NVFP4-KV** variant (community-derived — tonyd2wild's recipe) is the faster **single-stream**
 path. See our measurements in [`20260630-nvfp4-1m-context-curve-checkpoint.md`](20260630-nvfp4-1m-context-curve-checkpoint.md)
 and [`20260630-nvfp4-c16-reproduction-checkpoint.md`](20260630-nvfp4-c16-reproduction-checkpoint.md)
-in this repo, and the upstream recipe at
-<https://github.com/tonyd2wild/DeepSeek-v4-Flash-DSpark-1M-NVFP4-KV-2x-DGX-Spark>.
+in this repo, and the
+[upstream recipe by tonyd2wild](https://github.com/tonyd2wild/DeepSeek-v4-Flash-DSpark-1M-NVFP4-KV-2x-DGX-Spark).
 
 _Recorded 2026-06-30._
