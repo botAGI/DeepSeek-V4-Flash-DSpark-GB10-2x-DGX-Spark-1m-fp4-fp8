@@ -81,10 +81,11 @@ TP=2 over RoCE, apples-to-apples.
 
 - **[`benchmarks/20260630-fp8-dspark-checkpoint.md`](benchmarks/20260630-fp8-dspark-checkpoint.md)**
   — our fp8 DSpark build: single-stream +21–24% over no-spec, the `block_size 5→4` control, and
-  the concurrency numbers (seqs=12 prod: ~99 t/s at 8 streams, 141–146 t/s at 12).
+  the concurrency numbers (seqs=12 prod: ~99 tok/s at 8 streams, 141–146 tok/s at 12).
 - **[`benchmarks/20260630-nvfp4-1m-context-curve-checkpoint.md`](benchmarks/20260630-nvfp4-1m-context-curve-checkpoint.md)**
-  — the **1M-context single-stream depth curve** of tonyd2wild's NVFP4 build (42.7 t/s at 16K down
-  to 17.6 t/s at 512K) — the number nobody in the community had published.
+  — the **1M-context single-stream depth curve** of tonyd2wild's NVFP4 build (42.7 tok/s at 16K →
+  17.6 at 512K → 17.2 at a real 1.03M prompt; the curve flattens past 512K), plus cold-prefill /
+  prefix-cache timing at full depth — the numbers nobody in the community had published.
 - **[`benchmarks/20260630-nvfp4-c16-reproduction-checkpoint.md`](benchmarks/20260630-nvfp4-c16-reproduction-checkpoint.md)**
   — independent reproduction of tonyd2wild's C16 concurrency numbers (his 315.1 re-derives as our
   control's 319), validating his benchmark.

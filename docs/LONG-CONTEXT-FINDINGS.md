@@ -40,20 +40,31 @@ tps = mean_acceptance_length / step_time
 MoE on GB10's 273 GB/s unified memory) plus the draft. As context deepens, `mean_acceptance_length`
 falls because the draft has progressively less signal — so `tps` decays. Measured:
 
-| depth | prompt_tok (verified) | comp_tok | wall_s | **t/s** | mean-accept | avg draft-accept rate |
+| depth | prompt_tok (verified) | comp_tok | wall_s | **tok/s** | mean-accept | avg draft-accept rate |
 | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
 | 16K  | 16,006  | 200 | 4.69 | **42.66** | 3.30 | 45.9% |
 | 64K  | 64,008  | 200 | 6.92 | **28.90** | 2.23 | 24.7% |
 | 256K | 255,991 | 104 | 4.10 | **25.35** | 2.42 | 28.4% |
 | 512K | 511,966 | 95  | 5.40 | **17.61** | 1.98 | 19.6% |
+| 1.03M | 1,032,953 | 200 | 11.62 | **17.21** | ~2.1 | ~22% |
 
-Throughput drops from **42.7 t/s at 16K to 17.6 t/s at 512K** — more than halved. The
+Throughput drops from **42.7 tok/s at 16K to 17.6 at 512K and 17.2 at the full window (1.03M)**
+— more than halved by 512K, then **flattening** (−2% from 512K to 1.03M: by that depth speculation
+adds little and the step is dominated by the same verify-forward as no-spec). The
 non-monotonicity between 64K (28.9) and 256K (25.4) is small and within sample noise; the trend
 is unambiguous: **deep context is slow, and the short-context number does not describe it.**
 
+> **Update 2026-07-04 — full-window point added.** Prompt calibrated to **1,032,953 tokens** of
+> the 1,048,576 window; two timed greedy runs: **17.21 / 17.19 tok/s** (spread 0.02), both
+> **coherent** (repetition ratio 0.037 / 0.0 — no loops at full depth). Cold prefill of the 1.03M
+> prompt took **642 s** (~1600 tok/s prefill); a warm re-query on the same context via prefix
+> cache started in **4 s**. Method caveat: different fragment of the same prose corpus than the
+> shallower points; acceptance is a full-window aggregate over a short generation window. Raw
+> logs: [`../benchmarks/raw/`](../benchmarks/raw/).
+
 > **Why this matters for the community:** the published single-stream headline for this build
-> (~67 t/s) is measured near the top of the window (~300 tokens). Forum user *renek* noted
-> qualitatively that "at 1M nobody is fast, <10 t/s," but no one published the curve. This table
+> (~67 tok/s) is measured near the top of the window (~300 tokens). Forum user *renek* noted
+> qualitatively that "at 1M nobody is fast, <10 tok/s," but no one published the curve. This table
 > fills that gap. It is true of the *unmodified upstream build* — it is not a property of any
 > change we made.
 
@@ -83,7 +94,7 @@ less KV memory per step." We **falsified** this with a no-spec control: run the 
 DSpark speculative decoding **disabled**, so throughput reflects only the raw autoregressive
 forward, with no draft acceptance in play.
 
-| configuration | no-spec single-stream t/s |
+| configuration | no-spec single-stream tok/s |
 | --- | ---: |
 | NVFP4-KV build (this repo) | **26.6** |
 | fp8-KV build (our other repo) | **26.7** |
@@ -96,7 +107,7 @@ is not the binding term at these depths.)
 Since `tps = mean_accept / step_time` and `step_time` is the same (no-spec proves it), the entire
 NVFP4 single-stream advantage with spec-decode ON is the **higher mean acceptance length**:
 
-| build | mean-accept (spec ON) | single-stream t/s (spec ON, short ctx) |
+| build | mean-accept (spec ON) | single-stream tok/s (spec ON, short ctx) |
 | --- | ---: | ---: |
 | NVFP4 (this repo) | **3.0–4.2** | 55–63 |
 | fp8 (our other repo) | ~2.1 | 32–42 |
@@ -135,7 +146,7 @@ the acceptance metric alone.
 ### It is flappy (sample-dependent), not deterministic
 
 The *same prompt at the same depth* is sometimes coherent and sometimes loops. Our baseline 256K
-run produced coherent output (25.4 t/s, mean-accept 2.42); a later control run at 256K, same image,
+run produced coherent output (25.4 tok/s, mean-accept 2.42); a later control run at 256K, same image,
 produced the loop above (mean-accept 3.64). It is a **lottery over the decode path**, gated by depth
 (≥256K) and decode determinism.
 
@@ -180,7 +191,7 @@ locally-consistent rotations, while the target keeps true long-context positions
   acceptance metric rises during degeneration (see §3). Output was incoherent at every depth
   (`"...running on a single node with 0 GPUs."`, phrase loops at 64K/256K/512K).
 - The `torch.where` re-anchor path also **slowed decode catastrophically**: 256K dropped from
-  25.4 t/s (baseline) to **1.73 t/s** (~22× slower); 16K regressed 42.7 → 18.6 t/s even with the
+  25.4 tok/s (baseline) to **1.73 tok/s** (~15× slower); 16K regressed 42.7 → 18.6 tok/s even with the
   re-anchor depth-gated off. The extra per-step tensor op is not free on GB10.
 
 We applied the obvious fixes (identity below the window threshold, depth-gate the re-anchor to
@@ -215,12 +226,12 @@ scheduler OFF is correct.** We verified it so you don't have to.
 - **Build:** the upstream recipe — [tonyd2wild/DeepSeek-v4-Flash-DSpark-1M-NVFP4-KV-2x-DGX-Spark](https://github.com/tonyd2wild/DeepSeek-v4-Flash-DSpark-1M-NVFP4-KV-2x-DGX-Spark)
   (commit `89bb82b`): Stage A/B/C Dockerfiles, two-node worker-first launch, model-cache prep.
   Reproduced unchanged from upstream.
-- **Depth curve:** pad a non-repetitive prompt to each target depth (16K/64K/256K/512K), generate
+- **Depth curve:** pad a non-repetitive prompt to each target depth (16K/64K/256K/512K/1.03M), generate
   `g=200` non-streaming, record `completion_tokens / wall_time`, and capture vLLM's
   `SpecDecoding metrics` log line over the timed window. Warm the engine with ≥12 requests
   including deep contexts before timing (cold-cache inflates the first deep run).
 - **No-spec control:** relaunch with DSpark speculative decoding disabled; measure single-stream
-  autoregressive t/s. Compare NVFP4 vs fp8 KV (should be ≈ equal — that is the point).
+  autoregressive tok/s. Compare NVFP4 vs fp8 KV (should be ≈ equal — that is the point).
 - **Coherence check:** at ≥256K, deterministic decode, inspect generated text for phrase
   repetition; cross-check that high mean-accept coincides with loops (the metric trap). Repeat the
   same prompt several times — coherence is flappy, so a single coherent sample does not clear the

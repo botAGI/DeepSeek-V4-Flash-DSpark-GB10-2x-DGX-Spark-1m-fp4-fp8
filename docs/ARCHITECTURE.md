@@ -124,7 +124,7 @@ and a long grounded bug-hunt produced three fixes (all default-on, in `patches/`
    The inherited kernel sampled block slots **1..5**, so draft #1 came from a *noise* query
    2 RoPE-steps ahead → pos0 ≈ 5%. The reference samples **all** slots including slot 0 =
    the real bonus query at the natural next-token position. Shift by −1 so output `k` reads
-   slot `k`. **pos0 0.41 → 0.74 (≈ reference 0.76), mean 1.75 → 2.5, 26 → 36 t/s.** This was
+   slot `k`. **pos0 0.41 → 0.74 (≈ reference 0.76), mean 1.75 → 2.5, 26 → 36 tok/s.** This was
    the root cause — and it disproved the earlier (wrong) hypotheses that the gap was an
    fp8/fp4 precision wall or an EAGLE-vs-DSpark position-regime mismatch.
 

@@ -17,10 +17,10 @@ same engine.
 
 | Measurement | Result |
 |---|---:|
-| No-spec autoregressive (spec off) | **26.7 t/s** |
-| **DSpark single-stream** | **32 → 32.4 t/s** |
-| **DSpark concurrency, 8 streams** | **99 t/s** aggregate |
-| **DSpark concurrency, 12 streams** | **141–146 t/s** aggregate |
+| No-spec autoregressive (spec off) | **26.7 tok/s** |
+| **DSpark single-stream** | **32 → 32.4 tok/s** |
+| **DSpark concurrency, 8 streams** | **99 tok/s** aggregate |
+| **DSpark concurrency, 12 streams** | **141–146 tok/s** aggregate |
 | Mean draft-acceptance length | **~2.0** |
 
 ## fp8 vs NVFP4 KV
