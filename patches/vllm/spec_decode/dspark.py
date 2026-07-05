@@ -238,7 +238,7 @@ class DSparkProposer(DFlashProposer):
         import os
         if os.environ.get("DSPARK_BONUS") != "0":
             # 🎯 ROOT-CAUSE FIX — DEFAULT ON (multi-agent audit 29.06, VERIFIED LIVE:
-            # pos0 0.41->0.74 ≈ reference 0.76, mean accept 1.75->2.5, throughput 26->36 t/s).
+            # pos0 0.41->0.74 ≈ reference 0.76, mean accept 1.75->2.5, throughput 26->36 tok/s).
             # The inherited DFlash kernel builds 1+num_spec=6 query slots
             # [bonus@L, noise@L+1..L+5] and samples ONLY slots 1..5 (is_sample=query_off>0),
             # so base_logits[:,0] = noise@L+1 -> draft#1 from a noise query 2 RoPE-steps

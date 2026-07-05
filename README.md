@@ -36,9 +36,8 @@ touched.
 ### 2. NVFP4-KV DSpark — **tonyd2wild's** (we reproduced + measured, did not author)
 
 The faster single-stream / higher-acceptance line uses NVFP4 KV. **That recipe is not ours.** It
-is tonyd2wild's:
-<https://github.com/tonyd2wild/DeepSeek-v4-Flash-DSpark-1M-NVFP4-KV-2x-DGX-Spark> (commit
-`89bb82b`). We cloned it, reproduced it byte-identically on our own two-node cluster, and measured
+is [tonyd2wild's NVFP4-KV recipe](https://github.com/tonyd2wild/DeepSeek-v4-Flash-DSpark-1M-NVFP4-KV-2x-DGX-Spark)
+(commit `89bb82b`). We cloned it, reproduced it byte-identically on our own two-node cluster, and measured
 what nobody had published. To **build** it, go to the upstream repo. In this repo the NVFP4 line is
 **referenced by link, not vendored**; what we ship is our launcher for the reproduction run
 ([`run-nvfp4-node.sh`](run-nvfp4-node.sh)) and our measurements (below). Credit chain in

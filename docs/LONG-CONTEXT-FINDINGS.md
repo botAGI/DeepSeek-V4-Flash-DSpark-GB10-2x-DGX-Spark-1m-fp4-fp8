@@ -1,14 +1,14 @@
 # Long-Context Findings — NVFP4-KV DSpark on 2× DGX Spark (GB10)
 
 This is the detailed writeup behind the [README](../README.md). It documents what we measured
-that the upstream community ([attribution](../README.md#attribution--this-stands-entirely-on-community-work))
+that the upstream community ([attribution](../CREDITS.md))
 did not publish: the single-stream throughput curve out toward 1M context, the per-position
 draft-acceptance decay that drives it, the mechanism proving the NVFP4 single-stream win is
 acceptance and not bandwidth, the flappy long-context coherence bug, and two negative results.
 
 Everything here is a reproduction-and-measurement contribution. The build, the recipe, the
 patches, and the `nvfp4_ds_mla` plumbing are upstream work (tonyd2wild / bjk110 / drowzeys /
-rafaelcaricio / fraserprice / MiaAI-Lab) — see the [README attribution](../README.md#attribution--this-stands-entirely-on-community-work).
+rafaelcaricio / fraserprice / MiaAI-Lab) — see the [README attribution](../CREDITS.md).
 
 ---
 
@@ -22,7 +22,7 @@ rafaelcaricio / fraserprice / MiaAI-Lab) — see the [README attribution](../REA
   non-streaming**. SSE-event counting undercounts spec-decode by ~2.5× and is never used.
   Acceptance figures are read from vLLM's own `SpecDecoding metrics` log line
   (mean acceptance length + per-position acceptance rate) over the timed generation window.
-- **Prompt class:** a non-repetitive technical-continuation prompt padded to each target depth,
+- **Prompt class:** a non-repetitive prose-continuation prompt padded to each target depth,
   then `g=200` (or to `stop`) generated tokens, warm engine (≥12-request warmup including deep
   contexts before timing).
 
